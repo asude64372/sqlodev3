@@ -1,41 +1,22 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2821
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 .AppleSystemUIFontMonospaced-Regular;\f1\fnil\fcharset0 .SFNS-Regular;}
-{\colortbl;\red255\green255\blue255;\red151\green0\blue126;\red14\green14\blue14;\red0\green0\blue0;
-\red181\green0\blue19;}
-{\*\expandedcolortbl;;\cssrgb\c66667\c5098\c56863;\cssrgb\c6700\c6700\c6700;\csgray\c0;
-\cssrgb\c76863\c10196\c8627;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+-- bu sorguyla, 2009 yılında ABD’ye kesilen tüm faturaların toplam tutarını buluyorum.
+SELECT SUM(total) AS total_invoice_usa_2009
+FROM invoice
+WHERE billing_country = 'USA'
+  AND invoice_date BETWEEN '2009-01-01' AND '2009-12-31';
 
-\f0\fs26 \cf2 \'97-
-\f1\fs28 \cf3  bu sorguyla, 2009 y\uc0\u305 l\u305 nda ABD\'92ye kesilen t\'fcm faturalar\u305 n toplam tutar\u305 n\u305  buluyorum
-\f0\fs26 \cf2 \
-\
-\
-SELECT\cf4  SUM(total) \cf2 AS\cf4  total_invoice_usa_2009\
-\cf2 FROM\cf4  invoice\
-\cf2 WHERE\cf4  billing_country = \cf5 'USA'\cf4 \
-  \cf2 AND\cf4  invoice_date \cf2 BETWEEN\cf4  \cf5 '2009-01-01'\cf4  \cf2 AND\cf4  \cf5 '2009-12-31'\cf4 ;\
-\
-\
-\'97- h
-\f1\fs28 \cf3 er bir par\'e7ay\uc0\u305  hem ait oldu\u287 u \'e7alma listesiyle hem de \'e7alma listesinin ismiyle birlikte getiriyorum.
-\f0\fs26 \cf4 \
-SELECT t.*, pt.playlist_id, p.name AS playlist_name\
-FROM track t\
-JOIN playlisttrack pt ON t.track_id = pt.track_id\
-JOIN playlist p ON pt.playlist_id = p.playlist_id;\
-\
-\
-\'97-
-\f1\fs28 \cf3 bu sorguyla, \'93Let There Be Rock\'94 alb\'fcm\'fcndeki t\'fcm par\'e7alar\uc0\u305 , sanat\'e7\u305  ismiyle birlikte ve s\'fcresine g\'f6re b\'fcy\'fckten k\'fc\'e7\'fc\u287 e s\u305 ralayarak listeliyorum.
-\f0\fs26 \cf4 \
-SELECT t.name AS track_name,\
-       t.milliseconds,\
-       a.title AS album_title,\
-       ar.name AS artist_name\
-FROM track t\
-JOIN album a ON t.album_id = a.album_id\
-JOIN artist ar ON a.artist_id = ar.artist_id\
-WHERE a.title = 'Let There Be Rock'\
-ORDER BY t.milliseconds DESC;}
+--bu sorguyla, her bir parçayı hem ait olduğu çalma listesiyle hem de çalma listesinin ismiyle birlikte getiriyorum.
+SELECT t.*, pt.playlist_id, p.name AS playlist_name
+FROM track t
+JOIN playlisttrack pt ON t.track_id = pt.track_id
+JOIN playlist p ON pt.playlist_id = p.playlist_id;
+
+-- bu sorguyla, “Let There Be Rock” albümündeki tüm parçaları, sanatçı ismiyle birlikte ve süresine göre büyükten küçüğe sıralayarak listeliyorum.
+SELECT t.name AS track_name,
+       t.milliseconds,
+       a.title AS album_title,
+       ar.name AS artist_name
+FROM track t
+JOIN album a ON t.album_id = a.album_id
+JOIN artist ar ON a.artist_id = ar.artist_id
+WHERE a.title = 'Let There Be Rock'
+ORDER BY t.milliseconds DESC;
